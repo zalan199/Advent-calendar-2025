@@ -1,5 +1,5 @@
 #-----file preprocess-----
-data=[]
+data_out=[]
 with open("input.txt") as f:
     for i in f.readlines():
         subdata=[]
@@ -10,35 +10,36 @@ with open("input.txt") as f:
                 count+=1
             except:
                 break
-        data.append(subdata)
+        data_out.append(subdata)
 
+number_of_tags = 12
 testdata=[2,3,6,1,4,3,1,2,7, 9, 1, 0, 0, 0]
 
-indexes = []
-nest=0
 
-
-while(len(indexes<12)):
-    ma=info.index(max(info))
-    indexes.append(ma)
-    info = info[ma:]
-    if info == []:
-        nest-=1
-        info = data[indexes[nest]]
-
-
-def joltage(info, output, index):
-    if len(output)==12:
-        return (output)
-    else:
-        ma=info.index(max(info))
-        if (ma==(len(info)-1)):
-            output=output[:index]+[max(info)]
-            joltage(info[:-1], output, 0)
+#----------joltage count function--------------
+def jolt(data):
+    #-----init variables-----
+    stack=[0, len(data)]
+    result=[]
+    res=""
+    last=stack.pop()
+    
+    while(len(result)<number_of_tags):
+        #------end of the list-----
+        if not data[stack[-1]:last]:
+            last=stack.pop()-1          #we need to know the end of yet unprocessed data
         else:
-            output=output[:index]+[max(info)]+output[index:]
-            joltage(info[ma+1:], output, index+1)
-            
-print(joltage(testdata, [], 0))            
+            result.append(data[stack[-1]:last].index(max(data[stack[-1]:last]))+stack[-1]+1) #the indexes of resulting number0
+            stack.append(data[stack[-1]:last].index(max(data[stack[-1]:last]))+stack[-1]+1)     #stack to go back progress remainin data
+        result.sort() #sorting result dataset
+    for i in result:
+        res+=str(data[i-1])     #creating the result in number, not list
+    return int(res)
+
+
+print(jolt(testdata))
+        
+        
+    
             
     
