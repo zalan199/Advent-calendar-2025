@@ -13,7 +13,7 @@ with open("input.txt") as f:
         data_out.append(subdata)
 
 number_of_tags = 12
-testdata=[2,3,6,1,4,3,1,2,7, 9, 1, 0, 0, 0]
+#testdata=[2,3,6,1,4,3,1,2,7, 9, 1, 0, 0, 0]
 
 
 #----------joltage count function--------------
@@ -37,8 +37,14 @@ def jolt(data):
     return int(res)
 
 
-print(jolt(testdata))
-        
+#print(jolt(testdata))
+
+#------main--------
+sum=0
+for i in data_out:
+    sum+=jolt(i)
+
+print(sum)
         
     
             
